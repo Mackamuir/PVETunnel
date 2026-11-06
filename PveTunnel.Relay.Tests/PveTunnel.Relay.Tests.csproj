@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The documented sample must actually parse, so it is tested rather than trusted. -->
+    <None Include="../deploy/vms.example.json" Link="vms.example.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PveTunnel.Relay\PveTunnel.Relay.csproj" />
+    <ProjectReference Include="..\PveTunnel.Mux\PveTunnel.Mux.csproj" />
+  </ItemGroup>
+</Project>

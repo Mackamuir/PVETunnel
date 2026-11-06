@@ -1,0 +1,20 @@
+# Install as /etc/systemd/system/EXERCISE-OUT-OF-SCOPE-pve-tunnel-bridge.service
+[Unit]
+Description=EXERCISE INFRASTRUCTURE - pveTunnel bridge - OUT OF SCOPE FOR BLUE TEAM
+After=network.target
+
+[Service]
+Type=simple
+# PVE_TUNNEL_LISTEN defaults to 127.0.0.1:5000 and matches the QEMU device.
+# Environment=PVE_TUNNEL_LISTEN=127.0.0.1:5000
+# The port name below is a host/guest contract: it must match the virtserialport name in the
+# QEMU args exactly. Set explicitly rather than defaulted so the coupling is visible here.
+Environment=PVE_TUNNEL_PORT_NAME=pve-tunnel.relay.0
+Environment="EXERCISE_PVE_TUNNEL_NOTICE=EXERCISE INFRASTRUCTURE - OUT OF SCOPE FOR BLUE TEAM"
+ExecStart=/opt/ludus/EXERCISE-OUT-OF-SCOPE/pve-tunnel/EXERCISE-OUT-OF-SCOPE-pve-tunnel-bridge
+SyslogIdentifier=EXERCISE-OUT-OF-SCOPE-pve-tunnel-bridge
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,24 @@
+{
+  "_notice": "EXERCISE INFRASTRUCTURE - OUT OF SCOPE FOR BLUE TEAM",
+  "_install": "Install as /etc/pve/pve-tunnel/vms.json, root-owned, mode 0600.",
+  "_allocation": "managementPort values are allocated by the control plane, not by the relay. They must be unique cluster-wide so a live migration can rebind the same port on the destination node. The relay refuses to start if two VMs claim one port.",
+  "version": 1,
+  "vms": [
+    {
+      "vmid": "101",
+      "managementPort": 24101,
+      "ingress": true,
+      "egress": true,
+      "egressTarget": "10.10.0.20:5000",
+      "ingressTarget": "127.0.0.1:5986"
+    },
+    {
+      "vmid": "102",
+      "managementPort": 24102,
+      "ingress": false,
+      "egress": true,
+      "egressTarget": "10.10.0.20:5000",
+      "ingressTarget": "127.0.0.1:5986"
+    }
+  ]
+}

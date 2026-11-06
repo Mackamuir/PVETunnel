@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="PveTunnel.Mux/PveTunnel.Mux.csproj" />
+    <Project Path="PveTunnel.Bridge/PveTunnel.Bridge.csproj" />
+    <Project Path="PveTunnel.Relay/PveTunnel.Relay.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="PveTunnel.Mux.Tests/PveTunnel.Mux.Tests.csproj" />
+    <Project Path="PveTunnel.Relay.Tests/PveTunnel.Relay.Tests.csproj" />
+  </Folder>
+</Solution>

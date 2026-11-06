@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>pve-tunnel-relay</AssemblyName>
+    <RootNamespace>PveTunnel.Relay</RootNamespace>
+    <!-- Published self-contained so Proxmox hosts need no .NET runtime. -->
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PveTunnel.Mux\PveTunnel.Mux.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,21 @@
+# Normalise everything to LF in the repository, and check out LF by default.
+# Without this, core.autocrlf=true on a Windows clone rewrites the Linux-bound
+# deploy artifacts to CRLF. The relay systemd units and pve-tunnel.conf are
+# installed onto Proxmox nodes, where CRLF is at best untidy and at worst fatal.
+* text=auto eol=lf
+
+# Linux-bound deployment artifacts: LF is mandatory, not a preference.
+*.service   text eol=lf
+*.conf      text eol=lf
+*.sh        text eol=lf
+
+# Windows-only scripts: CRLF is conventional and harmless.
+*.ps1       text eol=crlf
+*.cmd       text eol=crlf
+*.bat       text eol=crlf
+
+# Never touch binaries.
+*.zip       binary
+*.exe       binary
+*.dll       binary
+*.pdb       binary

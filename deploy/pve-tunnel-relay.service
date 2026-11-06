@@ -1,0 +1,37 @@
+# Install as /etc/systemd/system/EXERCISE-OUT-OF-SCOPE-pve-tunnel-relay.service
+[Unit]
+Description=EXERCISE INFRASTRUCTURE - pveTunnel relay - OUT OF SCOPE FOR BLUE TEAM
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# The VM registry is REQUIRED. It maps each VMID to its allocated management port and its
+# fixed targets. Without it the relay exits at startup rather than guessing, and with
+# Restart=always that becomes a restart loop -- so deploy the registry before enabling this unit.
+# See deploy/vms.example.json; install root-owned, mode 0600.
+Environment=PVE_TUNNEL_REGISTRY=/etc/pve/pve-tunnel/vms.json
+Environment=PVE_TUNNEL_SOCKET=/run/pve-tunnel/relay.sock
+
+# Controller-facing ingress binds here. Loopback suits a single node; in a cluster set this to the
+# node management address and restrict it to the Ludus controller in the host firewall. Never a
+# wildcard address -- the relay refuses to bind one.
+Environment=PVE_TUNNEL_INGRESS_BIND=127.0.0.1
+
+# Single-target mode only, for a deployment with no registry at all. Both lines are needed
+# together; PVE_TUNNEL_TARGET is ignored when a registry is present, and ingress is off entirely.
+# Environment=PVE_TUNNEL_ALLOW_NO_REGISTRY=1
+# Environment=PVE_TUNNEL_TARGET=10.10.0.20:5000
+Environment="EXERCISE_PVE_TUNNEL_NOTICE=EXERCISE INFRASTRUCTURE - OUT OF SCOPE FOR BLUE TEAM"
+ExecStart=/opt/ludus/EXERCISE-OUT-OF-SCOPE/pve-tunnel/EXERCISE-OUT-OF-SCOPE-pve-tunnel-relay
+SyslogIdentifier=EXERCISE-OUT-OF-SCOPE-pve-tunnel-relay
+Restart=always
+RestartSec=2
+# Must run as root: reads /proc/<qemu-pid>/cmdline for VMID tagging and owns /run/pve-tunnel.
+User=root
+# systemd creates/cleans /run/pve-tunnel (0750). QEMU runs as root so it can connect regardless.
+RuntimeDirectory=pve-tunnel
+RuntimeDirectoryMode=0750
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+Add this single line to each trainee VM's config at /etc/pve/qemu-server/<VMID>.conf.
+It is BYTE-FOR-BYTE IDENTICAL on every VM, so bake it into the template and clones inherit it.
+
+args: -device virtio-serial-pci -chardev socket,id=pvetunnel,path=/run/pve-tunnel/relay.sock,server=off,reconnect=5 -device virtserialport,chardev=pvetunnel,name=pve-tunnel.relay.0
+
+Notes:
+- server=off  -> QEMU connects (as client) to the relay's listening socket. Keeps args uniform.
+- reconnect=5 -> QEMU re-dials every 5s; this is what makes live migration self-healing
+                 (the destination node's relay is already listening).
+- name=pve-tunnel.relay.0 -> surfaces in the guest as:
+    Windows: \\.\Global\pve-tunnel.relay.0   (needs virtio-serial "vioser" driver from virtio-win)
+    Linux:   /dev/virtio-ports/pve-tunnel.relay.0
+- No NIC is added, so the trainee sees no network adapter (only loopback).
+
+Equivalent via CLI without editing the file by hand:
+  qm set <VMID> -args '-device virtio-serial-pci -chardev socket,id=pvetunnel,path=/run/pve-tunnel/relay.sock,server=off,reconnect=5 -device virtserialport,chardev=pvetunnel,name=pve-tunnel.relay.0'

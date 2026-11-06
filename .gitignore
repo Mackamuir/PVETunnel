@@ -1,0 +1,24 @@
+# .NET build output
+bin/
+obj/
+
+# Publish / release staging. Release output is ~150 MB of self-contained binaries and is
+# reproducible from a tagged commit, so it is built rather than stored.
+publish/
+artifacts/
+release/
+release.zip
+*.zip
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Range Logon local database and authentication state
+range-logon/**/data/
